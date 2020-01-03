@@ -35,7 +35,7 @@
       set -o pipefail
       eval "`fnm env --multi`"
       fnm use {{ fnm_default_nodejs_version }}
-      fnm default $(nodejs --version)
+      fnm default $(node --version)
     executable: /bin/bash
   environment:
     PATH: "{{ fnm_install_dir  }}:{{ ansible_env.PATH }}"
