@@ -4,10 +4,11 @@
   vars:
     fnm_npm_global_packages:
       - name: neovim
+    fnm_install_user: "testuser"
   tasks:
     - name: Add user
       user:
-        name: hurricanehrndz
+        name: "{{ fnm_install_user }}"
         shell: "/bin/bash"
 
     - name: Run role
