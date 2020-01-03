@@ -1,0 +1,7 @@
+---
+
+fnm_required_pkgs:
+  - unzip
+  - curl
+  - xz-utils
+  - netbase

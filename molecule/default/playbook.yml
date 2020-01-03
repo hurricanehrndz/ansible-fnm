@@ -1,0 +1,15 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    fnm_npm_global_packages:
+      - name: neovim
+  tasks:
+    - name: Add user
+      user:
+        name: hurricanehrndz
+        shell: "/bin/bash"
+
+    - name: Run role
+      include_role:
+        name: ansible-fastnodemanager

@@ -1,0 +1,36 @@
+---
+# tasks file for ansible-fastnodemanager
+
+- name: Import distro specific variables
+  include_vars: '{{ item }}'
+  with_first_found:
+    - '{{ ansible_os_family }}.yml'
+    - default.yml
+
+- name: Install fnm system prerequisites
+  action: >
+    {{ ansible_pkg_mgr }} name="{{ fnm_required_pkgs }}"
+  become: true
+
+- name: Define fnm_install_user
+  set_fact:
+    fnm_install_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
+  when: fnm_install_user is not defined
+
+- block:
+    - name: Get fnm_install_user from passwd database
+      getent:
+        database: passwd
+        key: "{{ fnm_install_user }}"
+        split: ":"
+
+    - name: Define fnm_install_dir
+      set_fact:
+        fnm_install_dir: "{{ getent_passwd[fnm_install_user][4] }}/{{ fnm_install_dir_suffix }}"
+
+  when: fnm_install_dir is not defined
+
+- name: Install fnm
+  import_tasks: "install-fnm.yml"
+  become: true
+  become_user: "{{ fnm_install_user }}"

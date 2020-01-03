@@ -1,0 +1,71 @@
+---
+- name: Install fnm
+  shell:
+    cmd: |
+      set -o pipefail
+      curl -fsSL https://github.com/Schniz/fnm/raw/master/.ci/install.sh | \
+        bash -s -- --install-dir "{{ fnm_install_dir }}"  {% if fnm_install_skip_shell %}--skip-shell{% endif %}
+    executable: /bin/bash
+  args:
+    creates: "{{ fnm_install_dir }}/fnm"
+
+- name: Install nodejs via fnm
+  shell:
+    cmd: |
+      set -o pipefail
+      eval "`fnm env --multi`"
+      fnm install {{ item }}
+    executable: /bin/bash
+  environment:
+    PATH: "{{ fnm_install_dir  }}:{{ ansible_env.PATH }}"
+  register: fnm_install_results
+  changed_when: "'successfully downloaded' in fnm_install_results.stdout"
+  with_items: "{{ fnm_install_nodejs_versions }}"
+
+- name: Define fnm_default_nodejs_version
+  set_fact:
+    fnm_default_nodejs_version: "{{ fnm_install_nodejs_versions|first }}"
+  when:
+    - fnm_install_set_default_nodejs_ver|default(true)
+    - fnm_default_nodejs_version is not defined
+
+- name: Set default nodejs version via fnm
+  shell:
+    cmd: |
+      set -o pipefail
+      eval "`fnm env --multi`"
+      fnm use {{ fnm_default_nodejs_version }}
+      fnm default $(nodejs --version)
+    executable: /bin/bash
+  environment:
+    PATH: "{{ fnm_install_dir  }}:{{ ansible_env.PATH }}"
+  args:
+    creates: "{{ fnm_install_dir }}/aliases/default/bin"
+  when:
+    - fnm_install_set_default_nodejs_ver|default(true)
+
+- name: Get default nodejs version via fnm
+  shell:
+    cmd: |
+      set -o pipefail
+      eval "`fnm env --multi`"
+      fnm use {{ fnm_default_nodejs_version }} > /dev/null 2>&1
+      readlink -f $(command -v node) | sed  -E "s%/node$%%g"
+    executable: /bin/bash
+  environment:
+    PATH: "{{ fnm_install_dir  }}:{{ ansible_env.PATH }}"
+  register: default_nodejs_path_results
+  changed_when: false
+
+- name: Definde default_nodejs_path
+  set_fact:
+    default_nodejs_path: "{{ default_nodejs_path_results.stdout }}"
+
+- name: Install nodejsjs modules
+  npm:
+    name: "{{ item.name }}"
+    global: true
+    version: "{{ item.version|default('latest') }}"
+  environment:
+    PATH: "{% if item.nodejs_version is defined %}{{ fnm_install_dir }}/nodejs-versions/v{{ item.nodejs_version }}/installation/bin{% else %}{{ default_nodejs_path }}{% endif %}:{{ ansible_env.PATH }}" # noqa 204
+  with_items: "{{ fnm_npm_global_packages }}"
