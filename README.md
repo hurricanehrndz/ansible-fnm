@@ -1,7 +1,7 @@
 # hurricanehrndz.fastnodemanager
 
 [![Build Status](https://img.shields.io/travis/hurricanehrndz/ansible-fastnodemanager/master.svg?style=for-the-badge&logo=travis)](https://travis-ci.org/hurricanehrndz/ansible-fastnodemanager)
-[![Ansible Role](https://img.shields.io/ansible/role/d/44292?style=for-the-badge)](https://galaxy.ansible.com/hurricanehrndz/fastnodemanager)
+[![Ansible Role](https://img.shields.io/ansible/role/d/45604?style=for-the-badge)](https://galaxy.ansible.com/hurricanehrndz/fastnodemanager)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](https://raw.githubusercontent.com/hurricanehrndz/ansible-fastnodemanager/master/LICENSE)
 
 Ansible role to install Fast Node Manager (fnm) and nodejs within userspace.
