@@ -54,12 +54,12 @@
     executable: /bin/bash
   environment:
     PATH: "{{ fnm_install_dir  }}:{{ ansible_env.PATH }}"
-  register: default_nodejs_path_results
+  register: fnm_default_nodejs_path_results
   changed_when: false
 
 - name: Definde default_nodejs_path
   set_fact:
-    default_nodejs_path: "{{ default_nodejs_path_results.stdout }}"
+    fnm_default_nodejs_path: "{{ fnm_default_nodejs_path_results.stdout }}"
 
 - name: Install nodejsjs modules
   npm:
@@ -67,5 +67,5 @@
     global: true
     version: "{{ item.version|default('latest') }}"
   environment:
-    PATH: "{% if item.nodejs_version is defined %}{{ fnm_install_dir }}/nodejs-versions/v{{ item.nodejs_version }}/installation/bin{% else %}{{ default_nodejs_path }}{% endif %}:{{ ansible_env.PATH }}" # noqa 204
+    PATH: "{% if item.nodejs_version is defined %}{{ fnm_install_dir }}/nodejs-versions/v{{ item.nodejs_version }}/installation/bin{% else %}{{ fnm_default_nodejs_path }}{% endif %}:{{ ansible_env.PATH }}" # noqa 204
   with_items: "{{ fnm_npm_global_packages }}"
