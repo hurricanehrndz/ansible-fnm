@@ -10,7 +10,7 @@
     - regexp: '^# Define FM_DIR'
       line: "# Define FMN_DIR"
     - regexp: '^export FNM_DIR.*'
-      line: "export FNM_DIR={{ fnm_install_dir }}"
+      line: "export FNM_DIR={{ fnm_root }}"
   when:
     - not fnm_install_skip_shell
 
@@ -19,10 +19,10 @@
     cmd: |
       set -o pipefail
       curl -fsSL https://github.com/Schniz/fnm/raw/master/.ci/install.sh | \
-        bash -s -- --install-dir "{{ fnm_install_dir }}"  {% if fnm_install_skip_shell %}--skip-shell{% endif %}
+        bash -s -- --install-dir "{{ fnm_root }}"  {% if fnm_install_skip_shell %}--skip-shell{% endif %}
     executable: /bin/bash
   args:
-    creates: "{{ fnm_install_dir }}/fnm"
+    creates: "{{ fnm_root }}/fnm"
 
 - name: Install nodejs via fnm
   shell:
@@ -32,8 +32,8 @@
       fnm install {{ item }}
     executable: /bin/bash
   environment:
-    PATH: "{{ fnm_install_dir  }}:{{ ansible_env.PATH }}"
-    FNM_DIR: "{{ fnm_install_dir }}"
+    PATH: "{{ fnm_root  }}:{{ ansible_env.PATH }}"
+    FNM_DIR: "{{ fnm_root }}"
   register: fnm_install_results
   changed_when: "'successfully downloaded' in fnm_install_results.stdout"
   with_items: "{{ fnm_install_nodejs_versions }}"
@@ -54,10 +54,10 @@
       fnm default $(node --version)
     executable: /bin/bash
   environment:
-    PATH: "{{ fnm_install_dir  }}:{{ ansible_env.PATH }}"
-    FNM_DIR: "{{ fnm_install_dir }}"
+    PATH: "{{ fnm_root  }}:{{ ansible_env.PATH }}"
+    FNM_DIR: "{{ fnm_root }}"
   args:
-    creates: "{{ fnm_install_dir }}/aliases/default/bin"
+    creates: "{{ fnm_root }}/aliases/default/bin"
   when:
     - fnm_install_set_default_nodejs_ver|default(true)
 
@@ -70,8 +70,8 @@
       readlink -f $(command -v node) | sed  -E "s%/node$%%g"
     executable: /bin/bash
   environment:
-    PATH: "{{ fnm_install_dir  }}:{{ ansible_env.PATH }}"
-    FNM_DIR: "{{ fnm_install_dir }}"
+    PATH: "{{ fnm_root  }}:{{ ansible_env.PATH }}"
+    FNM_DIR: "{{ fnm_root }}"
   register: fnm_default_nodejs_path_results
   changed_when: false
 
@@ -85,5 +85,5 @@
     global: true
     version: "{{ item.version|default('latest') }}"
   environment:
-    PATH: "{% if item.nodejs_version is defined %}{{ fnm_install_dir }}/nodejs-versions/v{{ item.nodejs_version }}/installation/bin{% else %}{{ fnm_default_nodejs_path }}{% endif %}:{{ ansible_env.PATH }}" # noqa 204
+    PATH: "{% if item.nodejs_version is defined %}{{ fnm_root }}/nodejs-versions/v{{ item.nodejs_version }}/installation/bin{% else %}{{ fnm_default_nodejs_path }}{% endif %}:{{ ansible_env.PATH }}" # noqa 204
   with_items: "{{ fnm_npm_global_packages }}"

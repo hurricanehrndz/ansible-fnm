@@ -42,10 +42,10 @@
     - name: "{{ fnm_install_user_home }}/.zshrc"
       shell: "zsh"
 
-- name: Define fnm_install_dir
+- name: Define fnm_root
   set_fact:
-    fnm_install_dir: "{{ getent_passwd[fnm_install_user][4] }}/{{ fnm_install_dir_suffix }}"
-  when: fnm_install_dir is not defined
+    fnm_root: "{{ getent_passwd[fnm_install_user][4] }}/{{ fnm_root_suffix }}"
+  when: fnm_root is not defined
 
 - name: Install fnm
   import_tasks: "install-fnm.yml"

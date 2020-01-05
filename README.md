@@ -21,19 +21,19 @@ The user for whom fnm, node, npm, and node modules will be installed. Default is
 `ansible_user`.
 
 ```yaml
-fnm_install_dir: "{{ lookup('env', 'HOME') }}/{{ fnm_install_dir_suffix }}"
+fnm_root: "{{ lookup('env', 'HOME') }}/{{ fnm_root_suffix }}"
 ```
 
 Installation directory for `fnm`, this directory should be writeable by
 `fnm_install_user`. Default is `fnm_install_user`'s home directory (`$HOME`),
-plus `fnm_install_dir_suffix` (`.fnm`). For example,
+plus `fnm_root_suffix` (`.fnm`). For example,
 `/home/hurricanehrndz/.fnm`.
 
 ```yaml
-fnm_install_dir_suffix: ".fnm"
+fnm_root_suffix: ".fnm"
 ```
 
-Suffix for installation directory, used only when `fnm_install_dir` is not set.
+Suffix for installation directory, used only when `fnm_root` is not set.
 Defaults, to `.fnm`.
 
 ```yaml
