@@ -14,7 +14,7 @@ including any variables that are in [defaults/main.yml](defaults/main.yml),
 parameters to the role.
 
 ```yaml
-fnm_install_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
+fnm_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
 ```
 
 The user for whom fnm, node, npm, and node modules will be installed. Default is
@@ -25,7 +25,7 @@ fnm_root: "{{ lookup('env', 'HOME') }}/{{ fnm_root_suffix }}"
 ```
 
 Installation directory for `fnm`, this directory should be writeable by
-`fnm_install_user`. Default is `fnm_install_user`'s home directory (`$HOME`),
+`fnm_user`. Default is `fnm_user`'s home directory (`$HOME`),
 plus `fnm_root_suffix` (`.fnm`). For example,
 `/home/hurricanehrndz/.fnm`.
 
@@ -37,14 +37,14 @@ Suffix for installation directory, used only when `fnm_root` is not set.
 Defaults, to `.fnm`.
 
 ```yaml
-fnm_install_skip_shell: false
+fnm_skip_shell: false
 ```
 
-Set to `true`, to suppress modifications to `fnm_install_user`'s runtime
+Set to `true`, to suppress modifications to `fnm_user`'s runtime
 shell configuration.
 
 ```yaml
-fnm_install_nodejs_versions: []
+fnm_nodejs_versions: []
 ```
 
 List of nodejs versions to install. Defaults, to `[ "latest-v12.x" ]`. First

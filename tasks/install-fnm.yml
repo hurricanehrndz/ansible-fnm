@@ -1,7 +1,7 @@
 ---
 - name: Add FNM_DIR to runtime shell config
   lineinfile:
-    dest: "{{ fnm_install_user_shell_rc }}"
+    dest: "{{ fnm_user_shell_rc }}"
     line: "{{ item.line }}"
     regexp: "{{ item.regexp }}"
     create: true
@@ -12,14 +12,14 @@
     - regexp: '^export FNM_DIR.*'
       line: "export FNM_DIR={{ fnm_root }}"
   when:
-    - not fnm_install_skip_shell
+    - not fnm_skip_shell
 
 - name: Install fnm
   shell:
     cmd: |
       set -o pipefail
       curl -fsSL https://github.com/Schniz/fnm/raw/master/.ci/install.sh | \
-        bash -s -- --install-dir "{{ fnm_root }}"  {% if fnm_install_skip_shell %}--skip-shell{% endif %}
+        bash -s -- --install-dir "{{ fnm_root }}"  {% if fnm_skip_shell %}--skip-shell{% endif %}
     executable: /bin/bash
   args:
     creates: "{{ fnm_root }}/fnm"
@@ -34,15 +34,15 @@
   environment:
     PATH: "{{ fnm_root  }}:{{ ansible_env.PATH }}"
     FNM_DIR: "{{ fnm_root }}"
-  register: fnm_install_results
-  changed_when: "'successfully downloaded' in fnm_install_results.stdout"
-  with_items: "{{ fnm_install_nodejs_versions }}"
+  register: fnm_results
+  changed_when: "'successfully downloaded' in fnm_results.stdout"
+  with_items: "{{ fnm_nodejs_versions }}"
 
 - name: Define fnm_default_nodejs_version
   set_fact:
-    fnm_default_nodejs_version: "{{ fnm_install_nodejs_versions|first }}"
+    fnm_default_nodejs_version: "{{ fnm_nodejs_versions|first }}"
   when:
-    - fnm_install_set_default_nodejs_ver|default(true)
+    - fnm_set_default_nodejs_ver|default(true)
     - fnm_default_nodejs_version is not defined
 
 - name: Set default nodejs version via fnm
@@ -59,7 +59,7 @@
   args:
     creates: "{{ fnm_root }}/aliases/default/bin"
   when:
-    - fnm_install_set_default_nodejs_ver|default(true)
+    - fnm_set_default_nodejs_ver|default(true)
 
 - name: Get default nodejs version via fnm
   shell:

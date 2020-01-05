@@ -12,42 +12,42 @@
     {{ ansible_pkg_mgr }} name="{{ fnm_required_pkgs }}"
   become: true
 
-- name: Define fnm_install_user
+- name: Define fnm_user
   set_fact:
-    fnm_install_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
-  when: fnm_install_user is not defined
+    fnm_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
+  when: fnm_user is not defined
 
-- name: Get fnm_install_user from passwd database
+- name: Get fnm_user from passwd database
   getent:
     database: passwd
-    key: "{{ fnm_install_user }}"
+    key: "{{ fnm_user }}"
     split: ":"
 
-- name: Define fnm_install_user_home
+- name: Define fnm_user_home
   set_fact:
-    fnm_install_user_home: "{{ getent_passwd[fnm_install_user][4] }}"
+    fnm_user_home: "{{ getent_passwd[fnm_user][4] }}"
 
-- name: Define fnm_install_user_shell
+- name: Define fnm_user_shell
   set_fact:
-    fnm_install_user_shell: "{{ getent_passwd[fnm_install_user][5] }}"
+    fnm_user_shell: "{{ getent_passwd[fnm_user][5] }}"
 
-- name: Define fnm_install_user_shell_rc
+- name: Define fnm_user_shell_rc
   set_fact:
-    fnm_install_user_shell_rc: "{{ item.name }}"
+    fnm_user_shell_rc: "{{ item.name }}"
   when:
-    - fnm_install_user_shell|regex_replace('^.*/','') == item.shell
+    - fnm_user_shell|regex_replace('^.*/','') == item.shell
   with_items:
-    - name: "{{ fnm_install_user_home }}/.bashrc"
+    - name: "{{ fnm_user_home }}/.bashrc"
       shell: "bash"
-    - name: "{{ fnm_install_user_home }}/.zshrc"
+    - name: "{{ fnm_user_home }}/.zshrc"
       shell: "zsh"
 
 - name: Define fnm_root
   set_fact:
-    fnm_root: "{{ getent_passwd[fnm_install_user][4] }}/{{ fnm_root_suffix }}"
+    fnm_root: "{{ getent_passwd[fnm_user][4] }}/{{ fnm_root_suffix }}"
   when: fnm_root is not defined
 
 - name: Install fnm
   import_tasks: "install-fnm.yml"
   become: true
-  become_user: "{{ fnm_install_user }}"
+  become_user: "{{ fnm_user }}"

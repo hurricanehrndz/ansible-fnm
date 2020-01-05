@@ -4,12 +4,12 @@
   vars:
     fnm_npm_global_packages:
       - name: neovim
-    fnm_install_user: "testuser"
+    fnm_user: "testuser"
     fnm_root_suffix: ".local/share/fnm"
   tasks:
     - name: Add user
       user:
-        name: "{{ fnm_install_user }}"
+        name: "{{ fnm_user }}"
         shell: "/bin/bash"
 
     - name: Run role

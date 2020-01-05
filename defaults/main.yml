@@ -1,7 +1,7 @@
 ---
 # defaults file for ansible-fastnodemanager
 fnm_root_suffix: ".fnm"
-fnm_install_nodejs_versions:
+fnm_nodejs_versions:
   - "latest-v12.x"
 
-fnm_install_skip_shell: false
+fnm_skip_shell: false
