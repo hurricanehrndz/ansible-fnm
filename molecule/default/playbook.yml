@@ -5,6 +5,7 @@
     fnm_npm_global_packages:
       - name: neovim
     fnm_install_user: "testuser"
+    fnm_install_dir_suffix: ".local/share/fnm"
   tasks:
     - name: Add user
       user:

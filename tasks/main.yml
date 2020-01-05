@@ -17,17 +17,34 @@
     fnm_install_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
   when: fnm_install_user is not defined
 
-- block:
-    - name: Get fnm_install_user from passwd database
-      getent:
-        database: passwd
-        key: "{{ fnm_install_user }}"
-        split: ":"
+- name: Get fnm_install_user from passwd database
+  getent:
+    database: passwd
+    key: "{{ fnm_install_user }}"
+    split: ":"
 
-    - name: Define fnm_install_dir
-      set_fact:
-        fnm_install_dir: "{{ getent_passwd[fnm_install_user][4] }}/{{ fnm_install_dir_suffix }}"
+- name: Define fnm_install_user_home
+  set_fact:
+    fnm_install_user_home: "{{ getent_passwd[fnm_install_user][4] }}"
 
+- name: Define fnm_install_user_shell
+  set_fact:
+    fnm_install_user_shell: "{{ getent_passwd[fnm_install_user][5] }}"
+
+- name: Define fnm_install_user_shell_rc
+  set_fact:
+    fnm_install_user_shell_rc: "{{ item.name }}"
+  when:
+    - fnm_install_user_shell|regex_replace('^.*/','') == item.shell
+  with_items:
+    - name: "{{ fnm_install_user_home }}/.bashrc"
+      shell: "bash"
+    - name: "{{ fnm_install_user_home }}/.zshrc"
+      shell: "zsh"
+
+- name: Define fnm_install_dir
+  set_fact:
+    fnm_install_dir: "{{ getent_passwd[fnm_install_user][4] }}/{{ fnm_install_dir_suffix }}"
   when: fnm_install_dir is not defined
 
 - name: Install fnm

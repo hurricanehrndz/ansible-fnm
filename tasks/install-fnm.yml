@@ -9,6 +9,17 @@
   args:
     creates: "{{ fnm_install_dir }}/fnm"
 
+- name: Add FNM_DIR to runtime shell config
+  blockinfile:
+    dest: "{{ fnm_install_user_shell_rc }}"
+    block: |
+      # Define FNM_DIR
+      FNM_DIR={{ fnm_install_dir }}
+    create: true
+    state: present
+  when:
+    - not fnm_install_skip_shell
+
 - name: Install nodejs via fnm
   shell:
     cmd: |
@@ -18,6 +29,7 @@
     executable: /bin/bash
   environment:
     PATH: "{{ fnm_install_dir  }}:{{ ansible_env.PATH }}"
+    FNM_DIR: "{{ fnm_install_dir }}"
   register: fnm_install_results
   changed_when: "'successfully downloaded' in fnm_install_results.stdout"
   with_items: "{{ fnm_install_nodejs_versions }}"
@@ -39,6 +51,7 @@
     executable: /bin/bash
   environment:
     PATH: "{{ fnm_install_dir  }}:{{ ansible_env.PATH }}"
+    FNM_DIR: "{{ fnm_install_dir }}"
   args:
     creates: "{{ fnm_install_dir }}/aliases/default/bin"
   when:
@@ -54,6 +67,7 @@
     executable: /bin/bash
   environment:
     PATH: "{{ fnm_install_dir  }}:{{ ansible_env.PATH }}"
+    FNM_DIR: "{{ fnm_install_dir }}"
   register: fnm_default_nodejs_path_results
   changed_when: false
 
