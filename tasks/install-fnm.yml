@@ -1,4 +1,19 @@
 ---
+- name: Add FNM_DIR to runtime shell config
+  lineinfile:
+    dest: "{{ fnm_install_user_shell_rc }}"
+    line: "{{ item.line }}"
+    regexp: "{{ item.regexp }}"
+    create: true
+    state: present
+  with_items:
+    - regexp: '^# Define FM_DIR'
+      line: "# Define FMN_DIR"
+    - regexp: '^FNM_DIR.*'
+      line: "FNM_DIR={{ fnm_install_dir }}"
+  when:
+    - not fnm_install_skip_shell
+
 - name: Install fnm
   shell:
     cmd: |
@@ -8,17 +23,6 @@
     executable: /bin/bash
   args:
     creates: "{{ fnm_install_dir }}/fnm"
-
-- name: Add FNM_DIR to runtime shell config
-  blockinfile:
-    dest: "{{ fnm_install_user_shell_rc }}"
-    block: |
-      # Define FNM_DIR
-      FNM_DIR={{ fnm_install_dir }}
-    create: true
-    state: present
-  when:
-    - not fnm_install_skip_shell
 
 - name: Install nodejs via fnm
   shell:
