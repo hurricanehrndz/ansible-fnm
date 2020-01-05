@@ -9,8 +9,8 @@
   with_items:
     - regexp: '^# Define FM_DIR'
       line: "# Define FMN_DIR"
-    - regexp: '^FNM_DIR.*'
-      line: "FNM_DIR={{ fnm_install_dir }}"
+    - regexp: '^export FNM_DIR.*'
+      line: "export FNM_DIR={{ fnm_install_dir }}"
   when:
     - not fnm_install_skip_shell
 
