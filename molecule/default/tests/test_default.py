@@ -15,7 +15,7 @@ def test_hosts_file(host):
 
 
 def test_nodejs(host):
-    f = host.file('/home/testuser/.fnm/aliases/default/bin/node')
+    f = host.file('/home/testuser/.local/share/fnm/aliases/default/bin/node')
 
     assert f.exists
     assert f.user == 'testuser'
@@ -25,7 +25,7 @@ def test_nodejs(host):
 
 def test_npm_neovim_pkg(host):
     f = host.file(
-      '/home/testuser/.fnm/aliases/default/bin/neovim-node-host'
+      '/home/testuser/.local/share/fnm/aliases/default/bin/neovim-node-host'
     )
 
     assert f.exists
