@@ -17,7 +17,7 @@ parameters to the role.
 fnm_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
 ```
 
-The user for whom fnm, node, npm, and node modules will be installed. Default is
+The user for whom fnm, node, npm, and node modules will be installed, default is
 `ansible_user`.
 
 ```yaml
