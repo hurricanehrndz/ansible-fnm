@@ -7,6 +7,14 @@
     fnm_user: "testuser"
     fnm_root_suffix: ".local/share/fnm"
   tasks:
+    - name: Adjust id on manjaro
+      lineinfile:
+        dest: /etc/os-release
+        regexp: 'ID=.*'
+        line: 'ID=arch'
+        state: present
+      when: ansible_os_family == "Archlinux"
+
     - name: Add user
       user:
         name: "{{ fnm_user }}"
