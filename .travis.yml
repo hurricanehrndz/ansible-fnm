@@ -24,8 +24,8 @@ matrix:
       env:
         - ANSIBLE='ansible>=2.8'
         - MOLECULE_SCENARIO="default"
-        - MOLECULE_DISTRIBUTION="fedora30"
-        - MOLECULE_IMAGE="quay.io/samdoran/ubuntu18-ansible"
+        - MOLECULE_DISTRIBUTION="fedora32"
+        - MOLECULE_IMAGE="quay.io/samdoran/fedora32-ansible"
       services: docker
       language: python
       python: "3.8"
