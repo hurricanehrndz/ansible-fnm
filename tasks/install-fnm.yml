@@ -1,5 +1,6 @@
 ---
 - name: Add FNM_DIR to runtime shell config
+  # noqa 208
   lineinfile:
     dest: "{{ fnm_user_shell_rc }}"
     line: "{{ item.line }}"
