@@ -10,8 +10,8 @@ lint: |
     ansible-lint
     flake8
 platforms:
-  - name: "ansible-fastnodemanager_${MOLECULE_DISTRIBUTION:-ubuntu18}"
-    image: "${MOLECULE_IMAGE:-quay.io/samdoran/ubuntu18-ansible}"
+  - name: "ansible-fastnodemanager_${MOLECULE_DISTRIBUTION:-ubuntu20}"
+    image: "${MOLECULE_IMAGE:-quay.io/samdoran/ubuntu20-ansible}"
     command: ${MOLECULE_COMMAND:-""}
     volumes:
       - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
