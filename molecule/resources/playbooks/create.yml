@@ -20,9 +20,9 @@
         timeout: 600
       with_items: "{{ molecule_yml.platforms }}"
 
-    - name: Install Python in container
+    - name: Install Anisble Prerequisite in container
       delegate_to: "{{ item.name }}"
-      raw: apt-get install -y python
+      raw: apt-get install -y python sudo bash
       with_items: "{{ molecule_yml.platforms }}"
       when: item.alias is match("ubuntu.*")
 
@@ -36,14 +36,14 @@
           dnf makecache
         with_items: "{{ molecule_yml.platforms }}"
 
-      - name: Install Python in container
+      - name: Install Anisble Prerequisite in container
         delegate_to: "{{ item.name }}"
-        raw: dnf install -y python
+        raw: dnf install -y python3 sudo bash
         with_items: "{{ molecule_yml.platforms }}"
       when: item.alias is match("fedora.*")
 
-    - name: Install Python in container
+    - name: Install Anisble Prerequisite in container
       delegate_to: "{{ item.name }}"
-      raw: pacman -Syyu --noconfirm python3
+      raw: pacman -Syyu --noconfirm python3 sudo bash
       with_items: "{{ molecule_yml.platforms }}"
       when: item.alias is match("^archlinux.*")

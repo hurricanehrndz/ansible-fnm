@@ -1,8 +1,8 @@
 # hurricanehrndz.fnm (fastnodemanager)
 
-[![Build Status](https://img.shields.io/travis/hurricanehrndz/ansible-fnm/master.svg?style=for-the-badge&logo=travis)](https://travis-ci.org/hurricanehrndz/ansible-fnm)
-[![Ansible Role](https://img.shields.io/ansible/role/d/45604?style=for-the-badge)](https://galaxy.ansible.com/hurricanehrndz/fnm)
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](https://raw.githubusercontent.com/hurricanehrndz/ansible-fnm/master/LICENSE)
+[![Build Status][action-badge]][action-link]
+[![Ansible Role][ansible-badge]][ansible-link]
+[![MIT licensed][lic-badge]][lic-link]
 
 Ansible role to install Fast Node Manager (fnm) and nodejs within userspace.
 
@@ -84,3 +84,12 @@ None.
 [MIT](LICENSE)
 
 ## Author Information
+
+[Carlos Hernandez aka HurricaneHrndz](https://github.com/hurricanehrndz)
+
+[action-badge]: https://img.shields.io/github/workflow/status/hurricanehrndz/ansible-fnm/CI?style=for-the-badge
+[action-link]: https://github.com/hurricanehrndz/ansible-fnm/actions?query=workflow%3ACI
+[ansible-badge]: https://img.shields.io/ansible/role/d/45604?style=for-the-badge
+[ansible-link]: https://galaxy.ansible.com/hurricanehrndz/fnm
+[lic-badge]: https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge
+[lic-link]: https://raw.githubusercontent.com/hurricanehrndz/ansible-fnm/master/LICENSE
