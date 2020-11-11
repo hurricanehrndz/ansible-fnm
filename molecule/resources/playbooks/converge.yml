@@ -14,4 +14,4 @@
 
     - name: Run role
       include_role:
-        name: fastnodemanager
+        name: fnm

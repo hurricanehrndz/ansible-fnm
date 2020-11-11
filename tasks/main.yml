@@ -1,5 +1,5 @@
 ---
-# tasks file for ansible-fastnodemanager
+# tasks file for ansible-fnm
 - name: Import distro specific variables
   include_vars: '{{ item }}'
   with_first_found:

@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Carlos Hernandez
-  role_name: fastnodemanager
+  role_name: fnm
   description: Role to install Fast Node Manager (fnm) and nodejs within userspace.
   license: MIT
 

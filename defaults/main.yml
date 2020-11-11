@@ -1,5 +1,5 @@
 ---
-# defaults file for ansible-fastnodemanager
+# defaults file for ansible-fnm
 fnm_root_suffix: ".fnm"
 fnm_nodejs_versions:
   - "v14.15.0"

@@ -1,8 +1,8 @@
-# hurricanehrndz.fastnodemanager
+# hurricanehrndz.fnm (fastnodemanager)
 
-[![Build Status](https://img.shields.io/travis/hurricanehrndz/ansible-fastnodemanager/master.svg?style=for-the-badge&logo=travis)](https://travis-ci.org/hurricanehrndz/ansible-fastnodemanager)
-[![Ansible Role](https://img.shields.io/ansible/role/d/45604?style=for-the-badge)](https://galaxy.ansible.com/hurricanehrndz/fastnodemanager)
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](https://raw.githubusercontent.com/hurricanehrndz/ansible-fastnodemanager/master/LICENSE)
+[![Build Status](https://img.shields.io/travis/hurricanehrndz/ansible-fnm/master.svg?style=for-the-badge&logo=travis)](https://travis-ci.org/hurricanehrndz/ansible-fnm)
+[![Ansible Role](https://img.shields.io/ansible/role/d/45604?style=for-the-badge)](https://galaxy.ansible.com/hurricanehrndz/fnm)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg?style=for-the-badge)](https://raw.githubusercontent.com/hurricanehrndz/ansible-fnm/master/LICENSE)
 
 Ansible role to install Fast Node Manager (fnm) and nodejs within userspace.
 
@@ -61,9 +61,8 @@ package `version` to be installed globally. For example:
 fnm_npm_global_packages:
   - name: gulp
   - name: neovim
-    version: '4.7.0'
-    nodejs_version: '12.14.0'
-
+    version: "4.7.0"
+    nodejs_version: "12.14.0"
 ```
 
 ## Dependencies
@@ -77,7 +76,7 @@ None.
   tasks:
     - name: Run role
       include_role:
-        name: hurricanehrndz.fastnodemanager
+        name: hurricanehrndz.fnm
 ```
 
 ## License
@@ -85,4 +84,3 @@ None.
 [MIT](LICENSE)
 
 ## Author Information
-

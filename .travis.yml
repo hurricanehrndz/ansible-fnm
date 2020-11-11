@@ -15,8 +15,8 @@ matrix:
 git:
   clone: false
 install:
-  - git clone https://github.com/$TRAVIS_REPO_SLUG.git fastnodemanager
-  - cd fastnodemanager
+  - git clone https://github.com/$TRAVIS_REPO_SLUG.git fnm
+  - cd fnm
   - sudo /snap/bin/lxd waitready
   - sudo /snap/bin/lxd init --auto
   - sudo chgrp travis /var/snap/lxd/common/lxd/unix.socket

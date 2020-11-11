@@ -40,12 +40,12 @@ jobs:
           architecture: 'x64'
       - uses: actions/checkout@v2
         with:
-          path: rustup
+          path: fnm
 
       - name: Install molecule dependency
         run: |
           pip3 install -r requirements.txt
-        working-directory: rustup
+        working-directory: fnm
 
       - uses: actions/cache@v2
         with:
@@ -63,7 +63,7 @@ jobs:
       - name: Run molecule test
         run: |
           sg lxd -c "molecule test"
-        working-directory: rustup
+        working-directory: fnm
         env:
           MLDISTRO: ${{ matrix.tests.distro }}
           MLIMG: ${{ matrix.tests.img }}
