@@ -29,7 +29,7 @@
   shell:
     cmd: |
       set -o pipefail
-      eval "`fnm env --multi`"
+      eval "$(fnm env)"
       fnm install {{ item }}
     executable: /bin/bash
   environment:
@@ -50,7 +50,7 @@
   shell:
     cmd: |
       set -o pipefail
-      eval "`fnm env --multi`"
+      eval "$(fnm env)"
       fnm use {{ fnm_default_nodejs_version }}
       fnm default $(node --version)
     executable: /bin/bash
@@ -66,7 +66,7 @@
   shell:
     cmd: |
       set -o pipefail
-      eval "`fnm env --multi`"
+      eval "$(fnm env)"
       fnm use {{ fnm_default_nodejs_version }} > /dev/null 2>&1
       readlink -f $(command -v node) | sed  -E "s%/node$%%g"
     executable: /bin/bash
