@@ -34,7 +34,7 @@ script:
   - molecule --version
   - ansible --version
   - ansible-lint --version
-  - molecule test -s $MOLECULE_SCENARIO
+  - molecule test
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
