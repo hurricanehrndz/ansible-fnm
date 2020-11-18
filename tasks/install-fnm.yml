@@ -1,5 +1,5 @@
 ---
-- name: Add FNM_DIR to runtime shell config
+- name: Add FNM_DIR(fnm_root) to runtime shell config
   # noqa 208
   lineinfile:
     dest: "{{ fnm_user_shell_rc }}"
@@ -20,10 +20,10 @@
     cmd: |
       set -o pipefail
       curl -fsSL https://github.com/Schniz/fnm/raw/master/.ci/install.sh | \
-        bash -s -- --install-dir "{{ fnm_root }}"  {% if fnm_skip_shell %}--skip-shell{% endif %}
+        bash -s -- --install-dir "{{ fnm_bin_dest }}"  {% if fnm_skip_shell %}--skip-shell{% endif %}
     executable: /bin/bash
   args:
-    creates: "{{ fnm_root }}/fnm"
+    creates: "{{ fnm_bin_dest }}/fnm"
 
 - name: Install nodejs via fnm
   shell:
@@ -33,7 +33,7 @@
       fnm install {{ item }}
     executable: /bin/bash
   environment:
-    PATH: "{{ fnm_root  }}:{{ ansible_env.PATH }}"
+    PATH: "{{ fnm_bin_dest  }}:{{ ansible_env.PATH }}"
     FNM_DIR: "{{ fnm_root }}"
   register: fnm_results
   changed_when: "'successfully downloaded' in fnm_results.stdout"
@@ -55,7 +55,7 @@
       fnm default $(node --version)
     executable: /bin/bash
   environment:
-    PATH: "{{ fnm_root  }}:{{ ansible_env.PATH }}"
+    PATH: "{{ fnm_bin_dest  }}:{{ ansible_env.PATH }}"
     FNM_DIR: "{{ fnm_root }}"
   args:
     creates: "{{ fnm_root }}/aliases/default/bin"
@@ -71,7 +71,7 @@
       readlink -f $(command -v node) | sed  -E "s%/node$%%g"
     executable: /bin/bash
   environment:
-    PATH: "{{ fnm_root  }}:{{ ansible_env.PATH }}"
+    PATH: "{{ fnm_bin_dest  }}:{{ ansible_env.PATH }}"
     FNM_DIR: "{{ fnm_root }}"
   register: fnm_default_nodejs_path_results
   changed_when: false

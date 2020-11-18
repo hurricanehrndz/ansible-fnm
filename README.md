@@ -27,7 +27,7 @@ fnm_root: "{{ lookup('env', 'HOME') }}/{{ fnm_root_suffix }}"
 Installation directory for `fnm`, this directory should be writeable by
 `fnm_user`. Default is `fnm_user`'s home directory (`$HOME`),
 plus `fnm_root_suffix` (`.fnm`). For example,
-`/home/hurricanehrndz/.fnm`.
+`/home/hurricanehrndz/.fnm`. This is an alias for FNM_DIR.
 
 ```yaml
 fnm_root_suffix: ".fnm"

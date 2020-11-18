@@ -1,6 +1,13 @@
 ---
 # defaults file for ansible-fnm
+# $HOME/$fnm_root_suffix is FNM_DIR
+# feel free to override either fnm_root or fnm_root_suffix
 fnm_root_suffix: ".fnm"
+
+# Set to fnm_bin_dest set to $HOME/$fnm_bin_dest_suffix
+# feel free to override either fnm_bin_dest_suffix or fnm_bin_dest
+fnm_bin_dest_suffix: "./local/bin"
+
 fnm_nodejs_versions:
   - "v14.15.0"
 

@@ -44,8 +44,13 @@
 
 - name: Define fnm_root
   set_fact:
-    fnm_root: "{{ getent_passwd[fnm_user][4] }}/{{ fnm_root_suffix }}"
+    fnm_root: "{{ fnm_user_home }}/{{ fnm_root_suffix }}"
   when: fnm_root is not defined
+
+- name: Define fnm_bin_dest
+  set_fact:
+    fnm_bin_dest: "{{ fnm_user_home }}/{{ fnm_bin_dest_suffix }}"
+  when: fnm_bin_dest is not defined
 
 - name: Install fnm
   import_tasks: "install-fnm.yml"
