@@ -20,6 +20,6 @@ provisioner:
     destroy: ../resources/playbooks/destroy.yml
 verifier:
   name: testinfra
-  directory: ../shared/tests
+  directory: ../resources/tests
   options:
     verbose: true
