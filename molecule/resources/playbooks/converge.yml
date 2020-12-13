@@ -6,6 +6,9 @@
       - name: neovim
     fnm_user: "testuser"
     fnm_root_suffix: ".local/share/fnm"
+    fnm_use_npmrc: true
+    fnm_install_npmrc: true
+    fnm_npmrc_suffix: ".config/npm/npmrc"
   tasks:
     - name: Add user
       user:

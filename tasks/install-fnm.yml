@@ -88,3 +88,35 @@
   environment:
     PATH: "{% if item.nodejs_version is defined %}{{ fnm_root }}/nodejs-versions/v{{ item.nodejs_version }}/installation/bin{% else %}{{ fnm_default_nodejs_path }}{% endif %}:{{ ansible_env.PATH }}" # noqa 204
   with_items: "{{ fnm_npm_global_packages }}"
+  when: fnm_npmrc_suffix is not defined
+
+- name: Install nodejsjs modules with npmrc
+  when: fnm_npmrc_suffix is defined
+  block:
+    - name: Make directories required
+      file:
+        path: "{{ fnm_user_home }}/{{ fnm_npmrc_suffix|dirname }}"
+        mode: "0755"
+        state: directory
+        owner: "{{ fnm_user }}"
+
+    - name: Install npmrc
+      template:
+        src: npmrc.j2
+        dest: "{{ fnm_user_home }}/{{ fnm_npmrc_suffix }}"
+        mode: "0644"
+      when: fnm_install_npmrc|default(false)
+
+    - name: Install nodejsjs modules (npm)
+      npm:
+        name: "{{ item.name }}"
+        global: true
+        version: "{{ item.version|default('latest') }}"
+      #command:
+      #cmd: npm install -g "{{ item.name }}"
+      environment:
+        PATH: "{% if item.nodejs_version is defined %}{{ fnm_root }}/nodejs-versions/v{{ item.nodejs_version }}/installation/bin{% else %}{{ fnm_default_nodejs_path }}{% endif %}:{{ ansible_env.PATH }}" # noqa 204
+        NPM_CONFIG_USERCONFIG: "{{ fnm_user_home }}/{{ fnm_npmrc_suffix }}"
+        XDG_CACHE_HOME: "{{ fnm_user_home }}/.cache"
+        XDG_CONFIG_HOME: "{{ fnm_user_home }}/.config"
+      with_items: "{{ fnm_npm_global_packages }}"
